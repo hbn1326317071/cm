@@ -19,17 +19,19 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
-		
-    	<!-- 定义连接池对象 3-->
-    	<bean id="dbcp"
-    	    class="org.apache.commons.dbcp.BasicDataSource">
-			<property name="username" value="root"></property>
-			<property name="password" value="666151"></property>
-			<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
-			<property name="url" value="jdbc:mysql:///cm?useUnicode=true&amp;characterEncoding=utf8">
-			    
-			</property>
-    		</bean>
+		<!-- 用来加载费用的初始化值加载fee.properties -->
+		<util:properties id="fee" location="classpath:fee.properties"></util:properties>
+    	
+    	<!-- 加载jdbc.properties -->
+		<util:properties id="jdbc" location="classpath:jdbc.properties"/>
+		<!-- 定义连接池对象 3-->
+		<!-- 声明连接池 -->
+    	<bean id="dbcp" class="org.apache.commons.dbcp.BasicDataSource">
+    	    <property name ="driverClassName" value="#{jdbc.driver}"/>
+    	    <property name ="url" value="#{jdbc.url}"/>
+    	    <property name ="username" value="#{jdbc.user}"/>
+    	    <property name ="password" value="#{jdbc.password}"/>
+    	</bean>
     
     	<!--sqlSession工厂2 -->
     	<bean id="sqlsessionfactory"

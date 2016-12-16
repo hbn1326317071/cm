@@ -45,3 +45,12 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+.classpath
+*.prefs
+.settings/org.eclipse.wst.common.project.facet.core.xml
+*.name
+.settings/org.eclipse.wst.jsdt.ui.superType.container
+.tern-project
+*.project
+.settings/org.eclipse.wst.common.component
+.settings/.jsdtscope

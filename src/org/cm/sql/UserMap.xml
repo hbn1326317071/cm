@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ <mapper namespace="org.cm.dao.UserDao">
+     
+    
+     <select id="findByName" parameterType="string"
+         resultType="org.cm.entity.User">
+         select * from user where name=#{name}
+     </select>
+     <update id="updateState"
+         parameterType="string">
+         update user set state=#{1}
+         where name=#{0}         
+     </update>
+     <insert id="save" parameterType="org.cm.entity.User">
+         insert into user (name,pwd
+         ,type,state) values (#{name}
+         ,#{pwd}
+         ,#{type},#{state});
+     </insert>
+     
+    <!--  <insert id="save" parameterType="org.tarena.note.entity.User">
+         insert into cn_user (cn_user_id,cn_user_name,cn_user_password
+         ,cn_user_token,cn_user_desc) values (#{cn_user_id},#{cn_user_name}
+         ,#{cn_user_password}
+         ,#{cn_user_token},#{cn_user_desc});
+     </insert>
+     <update id="update_password"
+         parameterType="org.tarena.note.entity.User">
+         update cn_user set cn_user_password=#{modifyPassword}
+         where cn_user_id=#{cn_user_id}         
+     </update>
+     <select id="findById_user" parameterType="string"
+         resultType="org.tarena.note.entity.User">
+         select * from cn_user where 
+         cn_user_id=#{id}
+     </select> -->
+    
+ </mapper>
