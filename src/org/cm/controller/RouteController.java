@@ -1,12 +1,11 @@
 package org.cm.controller;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.cm.entity.RouteOtherFindInfo;
 import org.cm.entity.RouteResult;
 import org.cm.service.QueryRouteService;
 import org.cm.service.QueryStationInfoService;
-import org.cm.service.impl.QueryStationInfoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,8 +31,12 @@ public class RouteController {
 	public  RouteResult queryRouteById(String from ,String to,int id){
 		RouteResult result=new RouteResult();
 		result.setId(id);
-		String [] s=(String[])queryRouteService.queryRoute(from,to, id);
+		String [] s=(String[])queryRouteService.getStartAndEndStationById(from, to, id);
 		result.setRouteFindById(s);
+		double fee=queryStationInfoService.queryFee( from, to);
+		result.setFee(fee);
+		int time=queryStationInfoService.queryRunTime(from, to);
+		result.setTime(time);
 		
 		return result;
 	}
@@ -50,6 +53,8 @@ public class RouteController {
 		
 		RouteResult result=new RouteResult();
 		result.setAllRoute(queryRouteService.queryRoute(from,to)); 
+		result.setAllFee(queryRouteService.queryFee(from, to));
+		result.setAllTime(queryRouteService.queryTime(from, to));
 		return result;
 	}
 
@@ -84,8 +89,37 @@ public class RouteController {
 	
 	}
 	
+	@RequestMapping(value = "/queryStartAndEndStationById.do",produces = "application/json;charset=utf-8")  
+	@ResponseBody()
+	public String[]    getStartAndEndStationById(String from,String to,int id){
+	String[] s=	queryRouteService.getStartAndEndStationById(from, to,id);
+		return s;
 	
+	}
 	
+	/**
+	 * 用来测试根据id查询起始站点到终止站点的距离
+	 */
+	@RequestMapping(value = "/queryStateNumById.do",produces = "application/json;charset=utf-8")  
+	@ResponseBody()
+	public int    queryStateNumById(String from,String to,int id){
+	int s=	queryStationInfoService.queryStationNumById(from, to, id);
+		return s;
 	
+	}
+	/**
+	 * 查询所有的站点
+	 * @param from
+	 * @param to
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/queryAllStation.do",produces = "application/json;charset=utf-8")  
+	@ResponseBody
+	public Map<Integer,String[]>    queryAllStation(){
+		 Map<Integer,String[]> map=	queryRouteService.getAllRoute();
+		return map;
+	
+	}
 
 }

@@ -10,6 +10,11 @@ public interface RouteDao {
 	public List<Route> findAllId();
 	public List<Route> findByName(String stationName);
 	
-	
+	//Õ¾µãµÄcurd
+		public int addStation(Route station);
+		public int updatePrev(Route station);
+		public int updateNext(Route station);
+		//
+		public int findMaxCircuitId();
 
 }

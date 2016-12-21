@@ -50,7 +50,7 @@ public class QueryStationInfoServiceImpl implements QueryStationInfoService{
 
 	@Override
 	public int queryStationNum(String from, String to) {
-	Map<Integer,String[]> routeMap=	queryRouteService.queryRoute(from, to);
+	Map<Integer,String[]> routeMap=	queryRouteService.queryRouteFromTo(from, to);
 	System.out.println("daozhele1");
 	if(routeMap==null){//表示输入的路线存在
 		System.out.println("map is null");
@@ -86,7 +86,7 @@ public class QueryStationInfoServiceImpl implements QueryStationInfoService{
 	}
 
 	@Override
-	public double queryFee(String from, String to) {
+	public  double queryFee(String from, String to) {
 		int distance=queryStationNum( from,  to);
 		if(distance>=1){
 		double resultFee=(distance-1)*FEE;
@@ -127,6 +127,53 @@ public class QueryStationInfoServiceImpl implements QueryStationInfoService{
 
 	public void setCostTime(int costTime) {
 		this.costTime = costTime;
+	}
+
+	@Override
+	public int queryStationNumById(String from, String to,int id) {
+		Map<Integer,String[]> routeMap=	queryRouteService.queryRouteFromTo(from, to);
+		if(routeMap==null){//表示输入的路线存在
+			System.out.println("map is null");
+		return 0;
+		}
+		//采用迭代器遍历map找出所有的map中各最短的一条路线
+		Iterator iter = routeMap.entrySet().iterator();
+		String[] result=null;
+		while(iter.hasNext()){//遍历所有的路线
+		 Entry  entry=(Entry) iter.next();
+		 if(entry.getKey().equals(id)){
+		 result=(String[]) entry.getValue();
+		 }
+		
+		}
+		if(result==null||result.length==0){
+			return 0;
+		}
+		System.out.println("result.length"+result.length);
+		return result.length-1;
+	}
+
+	@Override
+	public double queryFeeById(String from, String to, int id) {
+		int distance=queryStationNumById( from,  to,id);
+		if(distance>=1){
+		double resultFee=(distance)*FEE;
+		return resultFee;
+		}else{
+			return 0;
+		}
+		
+	}
+
+	@Override
+	public int queryRunTimeById(String from, String to, int id) {
+		int distance=queryStationNumById( from,  to,id);
+		if(distance>=1){
+		int allCostTime=(distance)*costTime;
+		return allCostTime;
+		}else{
+			return 0;
+		}
 	}
 
 

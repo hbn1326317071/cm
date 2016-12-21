@@ -16,6 +16,24 @@
          resultType="org.cm.entity.Route">
          select * from route where station_name=#{0}
      </select>
+     <!-- 景辉写的 -->
+      <update id="updatePrev" parameterType="org.cm.entity.Route">
+     	update route set prev=#{prev} where station_name=#{station_name} and circuit_id=#{circuit_id}
+     </update>
+      <update id="updateNext" parameterType="org.cm.entity.Route">
+     	update route set next=#{next} where station_name=#{station_name} and circuit_id=#{circuit_id}
+     </update>
+     
+     <insert id="addStation" parameterType="org.cm.entity.Route">
+     	insert into route(station_name,prev,next,direction,circuit_id)  values(#{station_name},
+     			#{prev},#{next},#{direction},#{circuit_id})
+     </insert>
+     
+     <select id="findMaxCircuitId" resultType="int">
+     		 select max(circuit_id ) from route
+     </select>
+     
+     
      
 <!--      <update id="updateState"
          parameterType="string">
